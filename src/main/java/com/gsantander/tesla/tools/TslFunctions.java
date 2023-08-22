@@ -6,6 +6,8 @@ import com.gsantander.tesla.model.TslTerritory;
 import com.gsantander.tesla.records.EnumRecord;
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -85,7 +87,6 @@ public class TslFunctions {
         }
         return description;
     }
-
     public static int getLevel(ITreeEntity treeEntity) {
         int level = 1;
         while(treeEntity.getParent()!=null) {
@@ -95,9 +96,9 @@ public class TslFunctions {
         return level;
     }
 
-    // Date
-
-    public static DateTime getDateTime
+    public static DateTime getCurrentDateTime() {
+        return new DateTime().withZone(DateTimeZone.forID(TslConstants.TIME_ZONE));
+    }
 
 }
 

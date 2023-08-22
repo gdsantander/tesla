@@ -40,7 +40,7 @@ public class RefreshTokenService {
         TslUser tslUser = null;
         if(!userName.equals(TslConstants.SYSTEM_ADMIN_USER_NAME))
             tslUser = this.userRepository.findByCredentialsUserName(userName).get();
-        DateTime dtExpirationDate = new DateTime().withZone().plusMinutes(TokenType.REFRESH_TOKEN.getExpirationInMinutes());
+        DateTime dtExpirationDate = TslFunctions.getCurrentDateTime().plusMinutes(TokenType.REFRESH_TOKEN.getExpirationInMinutes());
         TslRefreshToken tslRefreshToken = new TslRefreshToken();
         tslRefreshToken.setUser(tslUser);
         tslRefreshToken.setRefreshToken(UUID.randomUUID().toString());

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.gsantander.tesla.tools.TslFunctions;
 import org.joda.time.DateTime;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class JwtService {
     }
 
     private String getToken(Map<String,Object> extraClaims, UserDetails userDetails, TokenType tokenType) {
-        DateTime dtIssuedAt = new DateTime();
+        DateTime dtIssuedAt = TslFunctions.getCurrentDateTime();
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
