@@ -43,11 +43,12 @@ public class AuthService {
             this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUserName(),request.getPassword()));
             user = this.userRepository.findByCredentialsUserName(request.getUserName()).orElseThrow();
         }
-        TslRefreshToken tslRefreshToken = refreshTokenService.createToken(request.getUserName());
+        String accessToken = this.jwtService.getToken(user,TokenType.ACCESS_TOKEN);
+        TslRefreshToken tslRefreshToken = this.refreshTokenService.createToken(request.getUserName());
         AuthResponse authResponse = new AuthResponse();
-        authResponse.setAccessToken(this.jwtService.getToken(user,TokenType.ACCESS_TOKEN));
+        authResponse.setAccessToken(accessToken);
         authResponse.setRefreshToken(tslRefreshToken.getRefreshToken());
-        authResponse.setExpirationDate(tslRefreshToken.getExpirationDate());
+        authResponse.setExpirationDate(this.jwtService.getExpiration(accessToken));
         return authResponse;
     }
 

@@ -33,7 +33,7 @@ public class JwtService {
     }
 
     private String getToken(Map<String,Object> extraClaims, UserDetails userDetails, TokenType tokenType) {
-        DateTime dtIssuedAt = TslFunctions.getCurrentDateTime();
+        DateTime dtIssuedAt = new DateTime();
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
@@ -72,12 +72,11 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    private Date getExpiration(String token) {
+    public Date getExpiration(String token) {
         return this.getClaim(token,Claims::getExpiration);
     }
 
     private boolean isTokenExpired(String token) {
-        System.out.println(this.getExpiration(token));
         return this.getExpiration(token).before(new Date());
     }
 

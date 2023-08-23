@@ -3,6 +3,7 @@ package com.gsantander.tesla.controllers;
 import com.gsantander.tesla.exceptions.TslFoundException;
 import com.gsantander.tesla.exceptions.TslNotFoundException;
 import com.gsantander.tesla.exceptions.TslPasswordChangeException;
+import com.gsantander.tesla.exceptions.TslTokenExpiredException;
 import com.gsantander.tesla.tools.TslFunctions;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.ConstraintViolation;
@@ -76,13 +77,19 @@ public class AdviceController {
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthenticationException.class)
-    public String handleAuthenticationException(Exception ex) {
+    public String handleAuthenticationException(AuthenticationException ex) {
         return TslFunctions.getMessage("authenticationFailed") + " (" + ex.getMessage() + ")";
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(TslTokenExpiredException.class)
+    public String handleTslTokenExpiredException(TslTokenExpiredException ex) {
+        return TslFunctions.getMessage("tokenExpired");
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(ExpiredJwtException.class)
-    public String handleTokenExpiredExceptions(ExpiredJwtException ex) {
+    public String handleExpiredJwtExceptionException(ExpiredJwtException ex) {
         return TslFunctions.getMessage("tokenExpired");
     }
 
@@ -90,7 +97,7 @@ public class AdviceController {
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(TslPasswordChangeException.class)
-    public String TslForbiddenException(Exception ex) {
+    public String handleTslForbiddenException(Exception ex) {
         return ex.getMessage();
     }
 

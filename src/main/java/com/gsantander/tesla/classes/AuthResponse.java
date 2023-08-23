@@ -1,11 +1,15 @@
 package com.gsantander.tesla.classes;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.gsantander.tesla.tools.TslConstants;
+
 import java.util.Date;
 
 public class AuthResponse {
 
     private String accessToken = "";
     private String refreshToken = "";
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern=TslConstants.PATTERN_TIME_FORMAT_JSON, timezone= TslConstants.TIME_ZONE)
     private Date expirationDate;
 
     public String getAccessToken() {

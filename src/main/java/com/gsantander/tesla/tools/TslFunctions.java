@@ -96,9 +96,5 @@ public class TslFunctions {
         return level;
     }
 
-    public static DateTime getCurrentDateTime() {
-        return new DateTime().withZone(DateTimeZone.forID(TslConstants.TIME_ZONE));
-    }
-
 }
 
