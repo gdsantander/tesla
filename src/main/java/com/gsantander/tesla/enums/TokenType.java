@@ -6,8 +6,8 @@ public enum TokenType {
 
     public int getExpirationInMinutes() {
         switch(this) {
-            case ACCESS_TOKEN: return 1;
-            case REFRESH_TOKEN: return 120;
+            case ACCESS_TOKEN: return 1000;
+            case REFRESH_TOKEN: return 1500;
         }
         return 0;
     }

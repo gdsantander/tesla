@@ -38,8 +38,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authRequest -> authRequest
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/enums/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/api/v1/companies/**")).hasAuthority(TslConstants.AUTHORITY_SYSTEM_ADMIN)
-                        .requestMatchers(new AntPathRequestMatcher("/api/v1/territories/**")).hasAuthority(TslConstants.AUTHORITY_SYSTEM_ADMIN)
+                        .requestMatchers(new AntPathRequestMatcher("/api/v1/global/**",HttpMethod.GET.name())).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/v1/global/**")).hasAuthority(TslConstants.AUTHORITY_SYSTEM_ADMIN)
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/**",HttpMethod.POST.name())).hasAuthority(TslConstants.AUTHORITY_WRITE)
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/**",HttpMethod.PUT.name())).hasAuthority(TslConstants.AUTHORITY_WRITE)
                         .requestMatchers(new AntPathRequestMatcher("/api/v1/**",HttpMethod.DELETE.name())).hasAuthority(TslConstants.AUTHORITY_WRITE)

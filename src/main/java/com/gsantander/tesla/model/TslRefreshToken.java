@@ -13,7 +13,7 @@ public class TslRefreshToken implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idToken")
     @SequenceGenerator(name = "idToken", sequenceName = "IDTOKEN", allocationSize = 1)
     private Integer idToken;
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date expirationDate;
     private String refreshToken;
     @OneToOne

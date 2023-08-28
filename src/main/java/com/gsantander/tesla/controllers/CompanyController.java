@@ -19,7 +19,7 @@ import com.gsantander.tesla.services.CompanyService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/companies")
+@RequestMapping("/api/v1/global/companies")
 public class CompanyController {
 
     private final CompanyService companyService;
@@ -29,13 +29,13 @@ public class CompanyController {
     }
 
     @PostMapping
-    public void insertCompany(@RequestBody @Valid TslCompany company) {
-        this.companyService.insertCompany(company);
+    public void insertCompany(@RequestBody @Valid TslCompany tslCompany) {
+        this.companyService.insertCompany(tslCompany);
     }
 
     @PutMapping
-    public void updateCompany(@RequestBody @Valid TslCompany company) {
-        this.companyService.updateCompany(company);
+    public void updateCompany(@RequestBody @Valid TslCompany tslCompany) {
+        this.companyService.updateCompany(tslCompany);
     }
 
     @DeleteMapping("/{id}")
@@ -45,14 +45,14 @@ public class CompanyController {
 
     @GetMapping("/list")
     public ResponseEntity<List<TslCompany>> getCompanies() {
-        List<TslCompany> companies = this.companyService.getCompanies();
-        return new ResponseEntity<>(companies,HttpStatus.OK);
+        List<TslCompany> tslCompanies = this.companyService.getCompanies();
+        return new ResponseEntity<>(tslCompanies,HttpStatus.OK);
     }
 
     @GetMapping("/company/{id}")
     public ResponseEntity<TslCompany> getCompany(@PathVariable Integer id) {
-        TslCompany company = this.companyService.getCompany(id);
-        return new ResponseEntity<>(company,HttpStatus.OK);
+        TslCompany tslCompany = this.companyService.getCompany(id);
+        return new ResponseEntity<>(tslCompany,HttpStatus.OK);
     }
 
 }

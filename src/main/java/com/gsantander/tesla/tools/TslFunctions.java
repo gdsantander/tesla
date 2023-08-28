@@ -87,6 +87,7 @@ public class TslFunctions {
         }
         return description;
     }
+
     public static int getLevel(ITreeEntity treeEntity) {
         int level = 1;
         while(treeEntity.getParent()!=null) {

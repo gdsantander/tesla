@@ -20,7 +20,7 @@ import com.gsantander.tesla.services.TerritoryService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/territories")
+@RequestMapping("/api/v1/global/territories")
 public class TerritoryController {
 
     private final TerritoryService territoryService;
@@ -30,13 +30,13 @@ public class TerritoryController {
     }
 
     @PostMapping
-    public void insertTerritory(@RequestBody @Valid TslTerritory territory) {
-        this.territoryService.insertTerritory(territory);
+    public void insertTerritory(@RequestBody @Valid TslTerritory tslTerritory) {
+        this.territoryService.insertTerritory(tslTerritory);
     }
 
     @PutMapping
-    public void updateTerritory(@RequestBody @Valid TslTerritory territory) {
-        this.territoryService.updateTerritory(territory);
+    public void updateTerritory(@RequestBody @Valid TslTerritory tslTerritory) {
+        this.territoryService.updateTerritory(tslTerritory);
     }
 
     @DeleteMapping("/{id}")
@@ -46,14 +46,14 @@ public class TerritoryController {
 
     @GetMapping("/provinces/{country}")
     public ResponseEntity<List<TslTerritory>> getProvinces(@PathVariable Country country) {
-        List<TslTerritory> provinces = this.territoryService.getProvinces(country);
-        return new ResponseEntity<>(provinces,HttpStatus.OK);
+        List<TslTerritory> tslTerritories = this.territoryService.getProvinces(country);
+        return new ResponseEntity<>(tslTerritories,HttpStatus.OK);
     }
 
     @GetMapping("/territory/{id}")
     public ResponseEntity<TslTerritory> getTerritory(@PathVariable Integer id) {
-        TslTerritory territory = this.territoryService.getTerritory(id);
-        return new ResponseEntity<>(territory,HttpStatus.OK);
+        TslTerritory tslTerritory = this.territoryService.getTerritory(id);
+        return new ResponseEntity<>(tslTerritory,HttpStatus.OK);
     }
 
 }

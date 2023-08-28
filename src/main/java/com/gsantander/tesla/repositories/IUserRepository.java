@@ -23,7 +23,7 @@ public interface IUserRepository extends JpaRepository <TslUser, Integer> {
     boolean existsByIdCompanyAndLastNameAndFirstNameAndEmailAndIdUserIsNot(Integer idCompany, String lastName, String firstName, String email, Integer idUser);
 
     @Modifying
-    @Query(value = "update USERS set CREDENTIALS_PASSWORD = :credentialsPassword where IDUSER = :idUser", nativeQuery = true)
-    void passwordChange(@Param("idUser") int idUser, @Param("credentialsPassword") String credentialsPassword);
+    @Query(value = "update USERS set CREDENTIALS_PASSWORD = :CredentialsPassword where IDUSER = :IdUser", nativeQuery = true)
+    void passwordChange(@Param("IdUser") int idUser, @Param("CredentialsPassword") String credentialsPassword);
 
 }

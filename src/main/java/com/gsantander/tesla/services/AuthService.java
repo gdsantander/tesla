@@ -21,15 +21,13 @@ public class AuthService {
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
     private final IUserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserDetails systemAdminUser;
 
-    public AuthService(JwtService jwtService, RefreshTokenService refreshTokenService, IUserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UserDetails systemAdminUser) {
+    public AuthService(JwtService jwtService, RefreshTokenService refreshTokenService, IUserRepository userRepository, AuthenticationManager authenticationManager, UserDetails systemAdminUser) {
         this.jwtService = jwtService;
         this.refreshTokenService = refreshTokenService;
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.systemAdminUser = systemAdminUser;
     }

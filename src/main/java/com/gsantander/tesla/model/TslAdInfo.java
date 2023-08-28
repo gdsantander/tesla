@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.Range;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -25,6 +26,8 @@ public class TslAdInfo implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idAdInfo")
     @SequenceGenerator(name = "idAdInfo", sequenceName = "IDADINFO", allocationSize = 1)
     private Integer idAdInfo;
+    @Column(name = "TID_Type")
+    private AdInfoType type = AdInfoType.ORGANIZATIONAL;
     @Email(message = "{email.invalid}")
     @Size(max = 100, message = "{field.size}")
     private String email = "";
@@ -66,7 +69,7 @@ public class TslAdInfo implements Serializable {
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern= TslConstants.PATTERN_DATE_FORMAT, timezone = TslConstants.TIME_ZONE)
     @DateValidation
-    private LocalDate birthDate;
+    private Date birthDate;
     @Column(name = "TID_Gender")
     private Gender gender = Gender.NONE;
     @Column(name = "TID_PersonalIdType")
@@ -86,6 +89,14 @@ public class TslAdInfo implements Serializable {
     private Set<TslAdInfoContact> contacts = new HashSet<>();
 
     // Getters & Setters
+
+    public AdInfoType getType() {
+        return type;
+    }
+
+    public void setType(AdInfoType type) {
+        this.type = type;
+    }
 
     public Integer getIdAdInfo() {
         return idAdInfo;
@@ -215,11 +226,11 @@ public class TslAdInfo implements Serializable {
         this.vatCategory = vatCategory;
     }
 
-    public LocalDate getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
