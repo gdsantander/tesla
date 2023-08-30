@@ -82,8 +82,8 @@ public class TslAdInfo implements Serializable {
     private Integer personalId = 0;
     private String comments = "";
     @OneToMany(mappedBy = "adInfo",
-            orphanRemoval = true,
-            cascade = {CascadeType.ALL})
+               orphanRemoval = true,
+               cascade = {CascadeType.ALL})
     @OrderBy("lastName ASC, firstName ASC")
     @JsonManagedReference
     private Set<TslAdInfoContact> contacts = new HashSet<>();

@@ -3,15 +3,14 @@ package com.gsantander.tesla.enums;
 import com.gsantander.tesla.interfaces.IEnum;
 import com.gsantander.tesla.tools.TslFunctions;
 
-public enum BankAccountType implements IEnum {
+public enum DocumentCondition implements IEnum {
 
-    NONE("-"),
-    SAVINGS("bankAccountTypeSavings"),
-    CHECKING("bankAccountTypeChecking");
+    CASH("documentConditionCash"),
+    CURRENTACCOUNT("documentConditionCurrentAccount");
 
     private final String description;
 
-    private BankAccountType(String description) {
+    private DocumentCondition(String description) {
         this.description = description;
     }
 

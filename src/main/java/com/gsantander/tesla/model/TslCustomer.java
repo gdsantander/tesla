@@ -1,5 +1,7 @@
 package com.gsantander.tesla.model;
 
+import com.gsantander.tesla.annotations.CustomerValidation;
+import com.gsantander.tesla.annotations.TerritoryValidation;
 import com.gsantander.tesla.enums.PersonType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +12,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity(name = "Customers")
+@CustomerValidation
 public class TslCustomer implements Serializable {
 
     @Id
