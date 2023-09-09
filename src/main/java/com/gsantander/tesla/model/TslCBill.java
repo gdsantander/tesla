@@ -34,7 +34,7 @@ public class TslCBill implements Serializable {
     private Integer preNumber = 0;
     private Integer number = 0;
     @Temporal(TemporalType.DATE)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern= TslConstants.PATTERN_DATE_FORMAT, timezone = TslConstants.TIME_ZONE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern= TslConstants.PATTERN_TIME_FORMAT_JSON, timezone = TslConstants.TIME_ZONE)
     @DateValidation
     private Date creditDate = new Date();
     @OneToOne()
