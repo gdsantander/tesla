@@ -2,8 +2,8 @@ package com.gsantander.tesla.services;
 
 import com.gsantander.tesla.exceptions.TslFoundException;
 import com.gsantander.tesla.exceptions.TslNotFoundException;
-import com.gsantander.tesla.model.TslCBill;
-import com.gsantander.tesla.repositories.ICBillRepository;
+import com.gsantander.tesla.model.*;
+import com.gsantander.tesla.repositories.*;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,9 +16,19 @@ import java.util.Optional;
 public class CBillService {
 
     private final ICBillRepository cBillRepository;
+    private final ISalesPointRepository salesPointRepository;
+    private final ICurrencyRepository currencyRepository;
+    private final IDocumentRepository documentRepository;
+    private final ICustomerRepository customerRepository;
+    private final IVatAliquotRepository vatAliquotRepository;
 
-    public CBillService(ICBillRepository cBillRepository) {
+    public CBillService(ICBillRepository cBillRepository, ISalesPointRepository salesPointRepository, ICurrencyRepository currencyRepository, IDocumentRepository documentRepository, ICustomerRepository customerRepository, IVatAliquotRepository vatAliquotRepository) {
         this.cBillRepository = cBillRepository;
+        this.salesPointRepository = salesPointRepository;
+        this.currencyRepository = currencyRepository;
+        this.documentRepository = documentRepository;
+        this.customerRepository = customerRepository;
+        this.vatAliquotRepository = vatAliquotRepository;
     }
 
     @Transactional
@@ -30,6 +40,13 @@ public class CBillService {
                                                                                                         tslCBill.getPreNumber(),
                                                                                                         tslCBill.getNumber()))
             throw new TslFoundException();
+        for(TslCBillItem tslCBillItem:tslCBill.getItems()) {
+            if(tslCBillItem.getVatAliquot()!=null) {
+                Optional<TslVatAliquot> optTslVatAliquot = this.vatAliquotRepository.findById(tslCBillItem.getVatAliquot().getIdVatAliquot());
+                if(optTslVatAliquot.isPresent())
+                    tslCBillItem.setVatAliquot(optTslVatAliquot.get());
+            }
+        }
         this.cBillRepository.save(tslCBill);
     }
 

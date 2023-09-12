@@ -92,20 +92,6 @@ public class TslCustomer implements Serializable {
         this.person = person;
     }
 
-    // Methods
-
-    public String getDescriptionBuilt() {
-        switch (this.person) {
-            case NATURAL -> {
-                return this.lastName + ", " + this.firstName;
-            }
-            case LEGAL -> {
-                return this.description;
-            }
-        }
-        return "";
-    }
-
     // Equals, HashCode, ToString
 
     @Override
@@ -128,6 +114,20 @@ public class TslCustomer implements Serializable {
                 "idCustomer=" + idCustomer +
                 ", description='" + this.getDescriptionBuilt() +
                 '}';
+    }
+
+    // Methods
+
+    public String getDescriptionBuilt() {
+        switch (this.person) {
+            case NATURAL -> {
+                return this.lastName + ", " + this.firstName;
+            }
+            case LEGAL -> {
+                return this.description;
+            }
+        }
+        return "";
     }
 
 }

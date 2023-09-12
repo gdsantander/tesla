@@ -13,5 +13,6 @@ public class TslConstants {
     public final static String PATTERN_TIME_FORMAT_JSON = "dd-MM-yyyy'T'HH:mm:ss.SSS'Z'";
     public final static String TIME_ZONE = "America/Argentina/Buenos_Aires";
     public final static String TIME_ZONE_GMT = "GMT-3";
+    public final static int KEY_COUNTER_HIGH_VALUE = 1000000;
 
 }

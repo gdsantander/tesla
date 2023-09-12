@@ -1,9 +1,13 @@
 package com.gsantander.tesla.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.gsantander.tesla.annotations.CBillValidation;
+import com.gsantander.tesla.annotations.CustomerValidation;
 import com.gsantander.tesla.annotations.DateValidation;
 import com.gsantander.tesla.enums.DocumentCondition;
 import com.gsantander.tesla.enums.Letter;
+import com.gsantander.tesla.enums.OperationalCenter;
 import com.gsantander.tesla.tools.TslConstants;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -12,9 +16,12 @@ import jakarta.validation.constraints.Positive;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity(name = "CBills")
+@CBillValidation
 public class TslCBill implements Serializable {
 
     @Id
@@ -34,7 +41,7 @@ public class TslCBill implements Serializable {
     private Integer preNumber = 0;
     private Integer number = 0;
     @Temporal(TemporalType.DATE)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern= TslConstants.PATTERN_DATE_FORMAT, timezone = TslConstants.TIME_ZONE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern= TslConstants.PATTERN_TIME_FORMAT_JSON, timezone = TslConstants.TIME_ZONE)
     @DateValidation
     private Date creditDate = new Date();
     @OneToOne()
@@ -47,7 +54,14 @@ public class TslCBill implements Serializable {
     @Column(name = "TID_Condition")
     private DocumentCondition condition = DocumentCondition.CURRENTACCOUNT;
     private String comments = "";
+    private String operationalCenter = OperationalCenter.NONE.getCode();
     private boolean annulled;
+    @OneToMany(mappedBy = "cBill",
+               orphanRemoval = true,
+               cascade = {CascadeType.ALL})
+    @OrderBy("idCBillItem ASC")
+    @JsonManagedReference
+    private Set<TslCBillItem> items = new HashSet<>();
 
     // Getters & Setters
 
@@ -161,6 +175,22 @@ public class TslCBill implements Serializable {
 
     public void setAnnulled(boolean annulled) {
         this.annulled = annulled;
+    }
+
+    public Set<TslCBillItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<TslCBillItem> items) {
+        this.items = items;
+    }
+
+    public String getOperationalCenter() {
+        return operationalCenter;
+    }
+
+    public void setOperationalCenter(String operationalCenter) {
+        this.operationalCenter = operationalCenter;
     }
 
     // Equals, HashCode, ToString
