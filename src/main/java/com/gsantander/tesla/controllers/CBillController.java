@@ -21,12 +21,18 @@ public class CBillController {
 
     @PostMapping
     public void insertCBill(@RequestBody @Valid TslCBill tslCBill) {
-        this.cBillService.insertCBill(tslCBill);
+        tslCBill = this.cBillService.insertCBill(tslCBill);
+        this.cBillService.numbering(tslCBill.getIdCBill());
     }
 
     @PutMapping
     public void updateCBill(@RequestBody @Valid TslCBill tslCBill) {
         this.cBillService.updateCBill(tslCBill);
+    }
+
+    @PutMapping("/annull/{id}")
+    public void annullCBill(@PathVariable Integer id) {
+        this.cBillService.annullCBill(id);
     }
 
     @DeleteMapping("/{id}")

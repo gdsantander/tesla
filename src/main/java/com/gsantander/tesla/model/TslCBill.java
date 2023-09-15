@@ -3,7 +3,6 @@ package com.gsantander.tesla.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.gsantander.tesla.annotations.CBillValidation;
-import com.gsantander.tesla.annotations.CustomerValidation;
 import com.gsantander.tesla.annotations.DateValidation;
 import com.gsantander.tesla.enums.DocumentCondition;
 import com.gsantander.tesla.enums.Letter;
@@ -37,7 +36,7 @@ public class TslCBill implements Serializable {
     @OneToOne()
     @JoinColumn(name = "IdDocument")
     private TslDocument document;
-    private Letter letter = Letter.X;
+    private String letter = Letter.X.name();
     private Integer preNumber = 0;
     private Integer number = 0;
     @Temporal(TemporalType.DATE)
@@ -62,6 +61,17 @@ public class TslCBill implements Serializable {
     @OrderBy("idCBillItem ASC")
     @JsonManagedReference
     private Set<TslCBillItem> items = new HashSet<>();
+    @OneToMany(mappedBy = "cBill",
+               orphanRemoval = true,
+               cascade = {CascadeType.ALL})
+    @OrderBy("dueDate ASC")
+    @JsonManagedReference
+    private Set<TslCBillDueDate> dueDates = new HashSet<>();
+    @OneToMany(mappedBy = "cBill",
+            orphanRemoval = true,
+            cascade = {CascadeType.ALL})
+    @JsonManagedReference
+    private Set<TslCBillReference> references = new HashSet<>();
 
     // Getters & Setters
 
@@ -97,11 +107,11 @@ public class TslCBill implements Serializable {
         this.document = document;
     }
 
-    public Letter getLetter() {
+    public String getLetter() {
         return letter;
     }
 
-    public void setLetter(Letter letter) {
+    public void setLetter(String letter) {
         this.letter = letter;
     }
 
@@ -193,6 +203,22 @@ public class TslCBill implements Serializable {
         this.operationalCenter = operationalCenter;
     }
 
+    public Set<TslCBillDueDate> getDueDates() {
+        return dueDates;
+    }
+
+    public void setDueDates(Set<TslCBillDueDate> dueDates) {
+        this.dueDates = dueDates;
+    }
+
+    public Set<TslCBillReference> getReferences() {
+        return references;
+    }
+
+    public void setReferences(Set<TslCBillReference> references) {
+        this.references = references;
+    }
+
     // Equals, HashCode, ToString
 
     @Override
@@ -219,10 +245,20 @@ public class TslCBill implements Serializable {
                 "idCBill=" + idCBill +
                 ", salesPoint='" + salesPoint.getDescription() + '\'' +
                 ", document='" + document.getDescription() + '\'' +
-                ", letter='" + letter.name() + '\'' +
+                ", letter='" + letter + '\'' +
                 ", preNumber='" + preNumber + '\'' +
                 ", number='" + number +
                 '}';
+    }
+
+    // Methods
+
+    public BigDecimal getAmount() {
+        BigDecimal amount = new BigDecimal(0);
+        for(TslCBillItem cBillItem:this.items) {
+            amount = amount.add(cBillItem.getAmount());
+        }
+        return amount;
     }
 
 }

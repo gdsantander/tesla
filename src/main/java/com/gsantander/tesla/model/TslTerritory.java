@@ -27,7 +27,7 @@ public class TslTerritory implements Serializable, Comparable<TslTerritory>, ITr
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idTerritory")
-    @SequenceGenerator(name = "idTerritory", sequenceName = "IDPROFILE", allocationSize = 1)
+    @SequenceGenerator(name = "idTerritory", sequenceName = "IDTERRITORY", allocationSize = 1)
     private Integer idTerritory;
     @NotBlank(message = "{field.notBlank}")
     @Size(max = 100, message = "{field.size}")

@@ -1,5 +1,8 @@
 package com.gsantander.tesla.config;
 
+import com.gsantander.tesla.model.TslCompany;
+import com.gsantander.tesla.repositories.ICompanyRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,13 +19,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.gsantander.tesla.repositories.IUserRepository;
 import com.gsantander.tesla.tools.TslConstants;
 
+import java.util.List;
+
 @Configuration
 public class ApplicationConfig {
 
+    private List<TslCompany> tslCompanies;
     private final IUserRepository userRepository;
+    private final ICompanyRepository companyRepository;
 
-    public ApplicationConfig(IUserRepository userRepository) {
+    public ApplicationConfig(IUserRepository userRepository, ICompanyRepository companyRepository) {
         this.userRepository = userRepository;
+        this.companyRepository = companyRepository;
+    }
+
+    @PostConstruct
+    public void onPostConstruct() {
+        this.tslCompanies = this.companyRepository.findAll();
     }
 
     @Bean
@@ -61,6 +74,13 @@ public class ApplicationConfig {
                 .password(TslConstants.SYSTEM_ADMIN_PASSWORD)
                 .authorities(TslConstants.AUTHORITY_READ,TslConstants.AUTHORITY_WRITE,TslConstants.AUTHORITY_SYSTEM_ADMIN)
                 .build();
+    }
+
+    public TslCompany getTslCompany(Integer idCompany) {
+        return this.tslCompanies.stream()
+                            .filter(tslCompany -> tslCompany.getIdCompany()==idCompany)
+                            .findFirst()
+                            .orElse(null);
     }
 
 }

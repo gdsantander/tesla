@@ -182,4 +182,8 @@ public class TslCBillItem implements Serializable {
         return this.unitPrice.multiply(this.quantity);
     }
 
+    public BigDecimal getAmount() {
+        return this.getSubtotal().add(this.taxesVat);
+    }
+
 }
